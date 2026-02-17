@@ -1,18 +1,82 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./styles.css" type="text/css" />
+<html>
+<head>
+    <title>Infinite Scrolling</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #f4f4f4;
+            margin: 0;
+        }
 
-    <title>Document</title>
-  </head>
-  <body>
-    <h2>Infinite Scroll</h2>
-    <main>
-      <ol id="infi-list"></ol>
-    </main>
-    <script src="./script.js"></script>
-  </body>
+        .container {
+            width: 400px;
+            height: 400px; /* Fixed height for scroll */
+            border: 2px solid #333;
+            border-radius: 8px;
+            overflow-y: auto; /* Enables scroll */
+            background: white;
+            padding: 10px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 0;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            background: #e9e9e9;
+            margin: 8px 0;
+            padding: 12px;
+            border-radius: 5px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="scrollBox">
+        <h2>Infinite Scroll List</h2>
+        <ul id="list"></ul>
+    </div>
+
+    <script>
+        const list = document.getElementById("list");
+        const scrollBox = document.getElementById("scrollBox");
+        let itemCount = 0;
+
+        function addItems(count) {
+            for (let i = 0; i < count; i++) {
+                itemCount++;
+                const li = document.createElement("li");
+                li.textContent = "List Item " + itemCount;
+                list.appendChild(li);
+            }
+        }
+
+        // Add 10 items initially
+        addItems(10);
+
+        // Scroll event on container (NOT window)
+        scrollBox.addEventListener("scroll", () => {
+            if (
+                scrollBox.scrollTop + scrollBox.clientHeight >=
+                scrollBox.scrollHeight - 5
+            ) {
+                addItems(2);
+            }
+        });
+    </script>
+
+</body>
 </html>
